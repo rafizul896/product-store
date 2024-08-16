@@ -8,6 +8,7 @@ import ProductCard from './ProductCard';
 const ManageUsers = () => {
     const [search, setSearch] = useState('');
     const [filter, setFilter] = useState('');
+    const [sort, setSort] = useState('');
     // pagination
     const [count, setCount] = useState('')
     const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -31,9 +32,9 @@ const ManageUsers = () => {
 
     // 
     const { data: products } = useQuery({
-        queryKey: ['allProducts', search, filter, itemsPerPage, currentPage],
+        queryKey: ['allProducts',sort, search, filter, itemsPerPage, currentPage],
         queryFn: async () => {
-            const { data } = await axiosCommon.get(`/products?page=${currentPage}&size=${itemsPerPage}&search=${search}&filter=${filter}`);
+            const { data } = await axiosCommon.get(`/products?page=${currentPage}&size=${itemsPerPage}&search=${search}&filter=${filter}&sort=${sort}`);
             return data;
         }
     })
@@ -43,6 +44,10 @@ const ManageUsers = () => {
 
     const handleFilterChange = (selectedOption) => {
         setFilter(selectedOption.value);
+    };
+
+    const handleSortChange = (selectedOption) => {
+        setSort(selectedOption.value);
     };
 
 
@@ -58,22 +63,38 @@ const ManageUsers = () => {
         { value: 'Footwear', label: 'Footwear' }
     ];
 
+    const sortOptions = [
+        { value: '', label: 'Sort By Price' },
+        { value: 'price-asc', label: 'Price: Low to High' },
+        { value: 'price-desc', label: 'Price: High to Low' },
+        { value: 'date-desc', label: 'Newest First' },
+    ];
+
     return (
         <div className="pb-10">
             <h2 className="text-2xl font-bold mb-4 text-center">All Products</h2>
-            <div className="flex mb-4">
+            <div className="flex mb-4 flex-col md:flex-row gap-3">
                 <input
                     type="text"
                     value={search}
                     onChange={handleSearchChange}
                     placeholder="Search by Product Name"
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2"
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
                 <Select
+                    defaultValue={roleOptions[0]}
                     options={roleOptions}
                     onChange={handleFilterChange}
                     className="w-full"
                 />
+
+                <Select
+                    defaultValue={sortOptions[0]}
+                    options={sortOptions}
+                    onChange={handleSortChange}
+                    className="w-full"
+                />
+
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {products?.map((product) => (
