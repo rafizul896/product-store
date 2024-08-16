@@ -6,17 +6,37 @@ import Pagination from '../../components/Pagination/Pagination';
 import ProductCard from './ProductCard';
 
 const ManageUsers = () => {
-    
+    const [search, setSearch] = useState('');
+    const [filter, setFilter] = useState('');
+    // pagination
+    const [count, setCount] = useState('')
+    const [itemsPerPage, setItemsPerPage] = useState(10);
+    const [currentPage, setCurrentPage] = useState(1);
+
+    // handle pagination button
+    const handlePaginationButton = (value) => {
+        setCurrentPage(value)
+    }
+
+    // // count total
+    useQuery({
+        queryKey: ['total-products', search, filter],
+        queryFn: async () => {
+            const { data } = await axiosCommon.get(`/products-total?search=${search}&filter=${filter}`);
+            return setCount(parseInt(data.count));
+        }
+    })
+
+    const pages = [...Array(Math.ceil(count / itemsPerPage)).keys()].map(e => e + 1)
 
     // 
-    const { data: products, refetch } = useQuery({
+    const { data: products } = useQuery({
         queryKey: ['allProducts', search, filter, itemsPerPage, currentPage],
         queryFn: async () => {
             const { data } = await axiosCommon.get(`/products?page=${currentPage}&size=${itemsPerPage}&search=${search}&filter=${filter}`);
             return data;
         }
     })
-    { console.log(products) }
     const handleSearchChange = (e) => {
         setSearch(e.target.value);
     };
@@ -60,7 +80,7 @@ const ManageUsers = () => {
                     <ProductCard key={product._id} product={product} />
                 ))}
             </div>
-            {/* <Pagination count={count} handlePaginationButton={handlePaginationButton} currentPage={currentPage} setItemsPerPage={setItemsPerPage} itemsPerPage={itemsPerPage} pages={pages} /> */}
+            <Pagination count={count} handlePaginationButton={handlePaginationButton} currentPage={currentPage} setItemsPerPage={setItemsPerPage} itemsPerPage={itemsPerPage} pages={pages} />
         </div>
     );
 };
