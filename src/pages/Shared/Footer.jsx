@@ -2,7 +2,7 @@ const Footer = () => {
     return (
         <div className="bg-black">
             <footer className="w-[90%] md:w-[90%] lg:w-[80%] mx-auto flex flex-col-reverse md:flex-row gap-2 justify-between text-neutral-content items-center py-4">
-                <aside className="grid-flow-col items-center">
+                <aside className="grid-flow-col items-center text-white">
                     <p>Copyright © ${new Date().getFullYear()} - All right reserved</p>
                 </aside>
                 <nav className="flex gap-4 md:place-self-center md:justify-self-end">
