@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 const ProductCard = ({ product }) => {
   return (
     <div className="bg-white border shadow-lg rounded-lg p-4 cursor-pointer">
-      <img src={product?.productImage} alt={product?.name} className="w-full h-48 object-cover rounded-lg" />
+      <img src={product?.productImage} alt={product?.productname} className="w-full h-48 object-cover rounded-lg" />
       <h2 className="text-lg font-semibold mt-2">{product?.productName}</h2>
       <p className="text-gray-600">{product?.description}</p>
       <div className="flex justify-between items-center mt-4">

@@ -24,9 +24,9 @@ const ManageUsers = () => {
     }
     // // count total
     useQuery({
-        queryKey: ['total-products', search, category, brandName],
+        queryKey: ['total-products', search, category, brandName,priceRange],
         queryFn: async () => {
-            const { data } = await axiosCommon.get(`/products-total?search=${search}&category=${category}&brandName=${brandName}`);
+            const { data } = await axiosCommon.get(`/products-total?search=${search}&category=${category}&brandName=${brandName}&minPrice=${minPrice}&maxPrice=${maxPrice}`);
             return setCount(parseInt(data.count));
         }
     })
@@ -108,7 +108,7 @@ const ManageUsers = () => {
 
     return (
         <div className="pb-10">
-            <h2 className="text-2xl font-bold mb-4 text-center">All Products</h2>
+            {/* <h2 className="text-2xl font-bold mb-4 text-center">All Products</h2> */}
             <div className="flex justify-center items-center mb-4 flex-col md:flex-row gap-3">
                 <input
                     type="text"

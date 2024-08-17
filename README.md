@@ -1,8 +1,7 @@
-# React + Vite
+# Frontend - E-commerce Product Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the frontend of the E-commerce Product Management System, built using React.js and Tailwind CSS. The project allows users to browse products, filter them by categories, and view detailed information about each product.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Installation and Setup
+- Includes steps to clone the repository, install dependencies, set up environment variables, and run the development server.
+- **Environment Variables**: Provides instructions to create a `.env` file and set the necessary environment variables for the project.
