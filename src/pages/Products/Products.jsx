@@ -9,6 +9,7 @@ const ManageUsers = () => {
     const [search, setSearch] = useState('');
     const [filter, setFilter] = useState('');
     const [sort, setSort] = useState('');
+    const [category, setCategory] = useState('');
     // pagination
     const [count, setCount] = useState('')
     const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -21,9 +22,9 @@ const ManageUsers = () => {
 
     // // count total
     useQuery({
-        queryKey: ['total-products', search, filter],
+        queryKey: ['total-products', search, filter,category],
         queryFn: async () => {
-            const { data } = await axiosCommon.get(`/products-total?search=${search}&filter=${filter}`);
+            const { data } = await axiosCommon.get(`/products-total?search=${search}&filter=${filter}&category=${category}`);
             return setCount(parseInt(data.count));
         }
     })
@@ -32,9 +33,9 @@ const ManageUsers = () => {
 
     // 
     const { data: products } = useQuery({
-        queryKey: ['allProducts',sort, search, filter, itemsPerPage, currentPage],
+        queryKey: ['allProducts', sort, search, filter, itemsPerPage, currentPage,category],
         queryFn: async () => {
-            const { data } = await axiosCommon.get(`/products?page=${currentPage}&size=${itemsPerPage}&search=${search}&filter=${filter}&sort=${sort}`);
+            const { data } = await axiosCommon.get(`/products?page=${currentPage}&size=${itemsPerPage}&search=${search}&filter=${filter}&sort=${sort}&category=${category}`);
             return data;
         }
     })
@@ -42,8 +43,8 @@ const ManageUsers = () => {
         setSearch(e.target.value);
     };
 
-    const handleFilterChange = (selectedOption) => {
-        setFilter(selectedOption.value);
+    const handleCategoryChange = (selectedOption) => {
+        setCategory(selectedOption.value);
     };
 
     const handleSortChange = (selectedOption) => {
@@ -53,7 +54,7 @@ const ManageUsers = () => {
 
 
     const roleOptions = [
-        { value: '', label: 'All Categories' },
+        { value: '', label: 'Filter By Category' },
         { value: 'Home Decor', label: 'Home Decor' },
         { value: 'Accessories', label: 'Accessories' },
         { value: 'Electronics', label: 'Electronics' },
@@ -84,7 +85,7 @@ const ManageUsers = () => {
                 <Select
                     defaultValue={roleOptions[0]}
                     options={roleOptions}
-                    onChange={handleFilterChange}
+                    onChange={handleCategoryChange}
                     className="w-full"
                 />
 
