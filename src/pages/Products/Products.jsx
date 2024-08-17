@@ -5,13 +5,14 @@ import { axiosCommon } from '../../hooks/useAxiosCommon';
 import Pagination from '../../components/Pagination/Pagination';
 import ProductCard from './ProductCard';
 import PriceRange from '../../components/PriceRange/PriceRange';
+import { GrPowerReset } from 'react-icons/gr';
 
 const ManageUsers = () => {
     const [search, setSearch] = useState('');
     const [sort, setSort] = useState('');
     const [category, setCategory] = useState('');
     const [brandName, setBrandName] = useState('')
-    const [priceRange, setPriceRange] = useState([0, 1000]); 
+    const [priceRange, setPriceRange] = useState([0, 1000]);
     const minPrice = priceRange[0]
     const maxPrice = priceRange[1]
     // pagination
@@ -24,7 +25,7 @@ const ManageUsers = () => {
     }
     // // count total
     useQuery({
-        queryKey: ['total-products', search, category, brandName,priceRange],
+        queryKey: ['total-products', search, category, brandName, priceRange],
         queryFn: async () => {
             const { data } = await axiosCommon.get(`/products-total?search=${search}&category=${category}&brandName=${brandName}&minPrice=${minPrice}&maxPrice=${maxPrice}`);
             return setCount(parseInt(data.count));
@@ -35,7 +36,7 @@ const ManageUsers = () => {
 
     // 
     const { data: products } = useQuery({
-        queryKey: ['allProducts', sort, search, itemsPerPage, currentPage, category, brandName,priceRange],
+        queryKey: ['allProducts', sort, search, itemsPerPage, currentPage, category, brandName, priceRange],
         queryFn: async () => {
             const { data } = await axiosCommon.get(`/products?page=${currentPage}&size=${itemsPerPage}&search=${search}&sort=${sort}&category=${category}&brandName=${brandName}&minPrice=${minPrice}&maxPrice=${maxPrice}`);
             return data;
@@ -105,6 +106,16 @@ const ManageUsers = () => {
         { value: 'date-desc', label: 'Newest First' },
     ];
 
+    const handleReset = () => {
+        setSort('');
+        setSearch('');
+        setBrandName('');
+        setCategory('');
+        setPriceRange([0, 1000])
+    }
+
+    console.log(search, brandName, category)
+
 
     return (
         <div className="pb-10">
@@ -137,14 +148,14 @@ const ManageUsers = () => {
                     onChange={handleSortChange}
                     className="w-full"
                 />
-
-                <PriceRange
-                    min={0}
-                    max={1000}
-                    step={10}
-                    onChange={(values) => setPriceRange(values)}
-                />
+                <button onClick={handleReset} className='px-1 md:px-4 py-2 text-xl font-medium tracking-wider text-gray-100 transition-colors duration-300 transform bg-[#2557a7] rounded-md'><GrPowerReset /></button>
             </div>
+            <PriceRange
+                min={0}
+                max={1000}
+                step={10}
+                onChange={(values) => setPriceRange(values)}
+            />
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {products?.map((product) => (
                     <ProductCard key={product._id} product={product} />

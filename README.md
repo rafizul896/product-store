@@ -9,10 +9,10 @@
 * Code editor: A code editor or IDE (e.g., Visual Studio Code, Sublime Text)
 
 ## Installation
-   # 1. Clone the repository:
-    https://github.com/your-username/your-repo.git
-   # 2. Install dependencies:
+   ### 1. Clone the repository:
+    https://github.com/rafizul896/product-store.git
+   ### 2. Install dependencies:
     npm install
 
 ## Development Server Start the development server:
-    npm start
+    npm run dev
